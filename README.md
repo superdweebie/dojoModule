@@ -27,40 +27,40 @@ Copy all the files in the DojoModule/public/js directory into your applications 
 	
 ## Configuration
 
-    Open `.../configs/application.config.php` and add 'DojoModule'
-    to the 'modules' parameter to register the module within your application.
+Open `.../configs/application.config.php` and add 'DojoModule'
+to the 'modules' parameter to register the module within your application.
 	
 ## Basic DojoModule Usage
 
-    If you wish to use dojo, place the following lines in your view script
+If you wish to use dojo, place the following lines in your view script
     $this->dojo()->activate();
 
-    Also make sure the following lines are somewhere in your view script, after the activation call shown above:
+Also make sure the following lines are somewhere in your view script, after the activation call shown above:
     <?php echo $this->headLink() ?>
     <?php echo $this->headScript() ?>   
 
-    Use the view helpers like you would other view helpers, eg:
+Use the view helpers like you would other view helpers, eg:
 
-    Get the them for use in the body tag:
+Get the them for use in the body tag:
     <body class="<?php echo $this->dojo()->getTheme();?>">
 
-    Construct a dijit:
+Construct an element:
     echo $this->dojo()->button(array('id' => 'button', 'dojoAttr' => array('label' => "'this is a button'")));  
 
-    Construct a container dijit:
+Construct a container element:
     $this->dojo()->borderContainer()->captureStart(array('id' => 'mainPane', 'dojoAttr' => array('gutters' => 'false')));
         //some content
     echo $this->dojo()->contentPane()->captureEnd('topPane');
 
-    The arguments for the view helpers is an options array. The following values will be utilised if found:
-    * id: string / the id of the element.
-    * htmlAttr: array of strings / will be rendered as attribues of the element
-    * dojoAttr: array of strings / will be rendered as inside the data-dojo-props attribue
-    * content: string / will be rendered inside the element tags
+The arguments for the view helpers is an options array. The following values will be utilised if found:
+* id: string / the id of the element.
+* htmlAttr: array of strings / will be rendered as attribues of the element
+* dojoAttr: array of strings / will be rendered as inside the data-dojo-props attribue
+* content: string / will be rendered inside the element tags
 
 ## Overriding and extending config
 
-   If you write your own dojo modules that extend the standard dojo modules, may over ride the default config of a view helper to render your extended module. eg:
+If you write your own dojo modules that extend the standard dojo modules, may over ride the default config of a view helper to render your extended module. eg:
 
             'DojoModule\View\Helper\Dojo\Button' => array(
                 'parameters' => array(
@@ -68,7 +68,7 @@ Copy all the files in the DojoModule/public/js directory into your applications 
                 )
             ),     
 
-    To add more stylesheets, change the dojo root, add extra view helpers, or change the theme, simply override the Dojo config. eg:
+To add more stylesheets, change the dojo root, add extra view helpers, or change the theme, simply override the Dojo config. eg:
 
             'DojoModule\View\Helper\Dojo' => array(
                 'parameters' => array(
@@ -85,10 +85,10 @@ Copy all the files in the DojoModule/public/js directory into your applications 
 	
 ## Using the dojo bootrstrap
 
-    A skeleton bootstrap class is provided in the DojoModule/public/js/dojo_src/dojomodule directory. You can extend this class to load all the dojo modules required by your application, and run any startup code. The example below is an extended bootstrap module. It loads all the required modules, including multiple custom 'sds' modules. Then in the startup function it does some initalisation of those custom modules, and animates a splash screen.
+A skeleton bootstrap class is provided in the DojoModule/public/js/dojo_src/dojomodule directory. You can extend this class to load all the dojo modules required by your application, and run any startup code. The example below is an extended bootstrap module. It loads all the required modules, including multiple custom 'sds' modules. Then in the startup function it does some initalisation of those custom modules, and animates a splash screen.
 
-define
-(
+    define
+    (
     [
         'dojo/_base/declare',  
         'dojo/dom',
@@ -144,7 +144,7 @@ define
             }
         );
     }
-);
+    );
 
 Tell DojoModule to use your extended bootstrap class with the following config override:
             'DojoModule\View\Helper\Dojo\Bootstrap' => array(

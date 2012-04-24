@@ -156,4 +156,16 @@ Tell DojoModule to use your extended bootstrap class with the following config o
 		)
 	),   
 
+Finally, use the bootstrap view helper in a view, and pass any initalisation variable you wish. eg:
+
+    echo $this->dojo()->bootstrap(array(
+        'id' => 'bootstrap',
+        'dojoAttr' => array(
+            'activeUser' => null,
+            'pageTitle' => "{main: 'main', sub: 'sub'}",
+            'status' => "{message: 'welcome', icon: 'happy', timeout: 5000}",
+            'loginConfig' => "{loginUrl: '$siteUrl/login', logoutUrl: '$siteUrl/logout'}"
+        )
+    ));
+	
 Using a dojo bootstrap like this had the added advantage of making the construction of a dojo layer very straightforward, because all your depenancies are defined in the bootstrap module.

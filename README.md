@@ -33,21 +33,26 @@ to the 'modules' parameter to register the module within your application.
 ## Basic DojoModule Usage
 
 If you wish to use dojo, place the following lines in your view script
+
     $this->dojo()->activate();
 
 Also make sure the following lines are somewhere in your view script, after the activation call shown above:
+
     <?php echo $this->headLink() ?>
     <?php echo $this->headScript() ?>   
 
-Use the view helpers like you would other view helpers, eg:
+Use the view helpers like you would other view helpers.
 
 Get the them for use in the body tag:
+
     <body class="<?php echo $this->dojo()->getTheme();?>">
 
 Construct an element:
+
     echo $this->dojo()->button(array('id' => 'button', 'dojoAttr' => array('label' => "'this is a button'")));  
 
 Construct a container element:
+
     $this->dojo()->borderContainer()->captureStart(array('id' => 'mainPane', 'dojoAttr' => array('gutters' => 'false')));
         //some content
     echo $this->dojo()->contentPane()->captureEnd('topPane');
@@ -62,34 +67,32 @@ The arguments for the view helpers is an options array. The following values wil
 
 If you write your own dojo modules that extend the standard dojo modules, may over ride the default config of a view helper to render your extended module. eg:
 
-            'DojoModule\View\Helper\Dojo\Button' => array(
-                'parameters' => array(
-                    'module' => 'mydojo.MyButton'
-                )
-            ),     
+	'DojoModule\View\Helper\Dojo\Button' => array(
+		'parameters' => array(
+			'module' => 'mydojo.MyButton'
+		)
+	),     
 
 To add more stylesheets, change the dojo root, add extra view helpers, or change the theme, simply override the Dojo config. eg:
 
-            'DojoModule\View\Helper\Dojo' => array(
-                'parameters' => array(
-                    'plugins' => array(
-                        'extraPlugin' => 'Application\View\Helper\Dojo\ExtraPlugin',                              
-                    ),
-                    'stylesheets' => array(
-                        '/dojox/grid/enhanced/resources/[THEME]/EnhancedGrid.css',
-                        '/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
-                    )
-                    'theme' => 'mytheme'
-                ),                    
-            ),
+	'DojoModule\View\Helper\Dojo' => array(
+		'parameters' => array(
+			'plugins' => array(
+				'extraPlugin' => 'Application\View\Helper\Dojo\ExtraPlugin',                              
+			),
+			'stylesheets' => array(
+				'/dojox/grid/enhanced/resources/[THEME]/EnhancedGrid.css',
+				'/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
+			)
+			'theme' => 'mytheme'
+		),                    
+	),
 	
 ## Using the dojo bootrstrap
 
 A skeleton bootstrap class is provided in the DojoModule/public/js/dojo_src/dojomodule directory. You can extend this class to load all the dojo modules required by your application, and run any startup code. The example below is an extended bootstrap module. It loads all the required modules, including multiple custom 'sds' modules. Then in the startup function it does some initalisation of those custom modules, and animates a splash screen.
 
-    define
-    (
-    [
+    define([
         'dojo/_base/declare',  
         'dojo/dom',
         'dojo/_base/lang',     
@@ -143,14 +146,14 @@ A skeleton bootstrap class is provided in the DojoModule/public/js/dojo_src/dojo
                 }
             }
         );
-    }
-    );
+    });
 
 Tell DojoModule to use your extended bootstrap class with the following config override:
-            'DojoModule\View\Helper\Dojo\Bootstrap' => array(
-                'parameters' => array(
-                    'module' => 'sds.Bootstrap'
-                )
-            ),   
+
+	'DojoModule\View\Helper\Dojo\Bootstrap' => array(
+		'parameters' => array(
+			'module' => 'sds.Bootstrap'
+		)
+	),   
 
 Using a dojo bootstrap like this had the added advantage of making the construction of a dojo layer very straightforward, because all your depenancies are defined in the bootstrap module.

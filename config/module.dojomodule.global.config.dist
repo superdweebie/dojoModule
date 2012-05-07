@@ -1,0 +1,18 @@
+<?php
+return array(
+    'di' => array(
+        'instance' => array(
+
+            //uncomment any dojo modules you require
+            'DojoModule\View\Helper\Dojo' => array(
+                'parameters' => array(                
+                    'modules' => array(
+                        'borderContainer' => 'dojo_borderContainer',          
+                        'contentPane' => 'dojo_contentPane',                                     
+                        'button' => 'dojo_button',                             
+                    ),
+                ),                    
+            ),
+        ),
+    ),
+);

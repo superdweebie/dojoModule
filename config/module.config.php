@@ -2,7 +2,17 @@
 return array(
     'di' => array(
         'instance' => array(
-
+            'alias' => array(
+                'dojo_bootsrap' => 'DojoModule\View\Helper\Element',
+                'dojo_borderContainer' => 'DojoModule\View\Helper\Element',
+                'dojo_contentPane' => 'DojoModule\View\Helper\Element',
+                'dojo_button' => 'DojoModule\View\Helper\Element',                
+                'dojo_enhancedGrid' => 'DojoModule\View\Helper\Element',      
+                'dojo_checkedMultiSelect' => 'DojoModule\View\Helper\Element',      
+                'dojo_standby' => 'DojoModule\View\Helper\Element',                      
+            ),
+            
+            //register dojo view helpers            
             'Zend\View\HelperLoader' => array(
                 'parameters' => array(
                     'map' => array(
@@ -11,50 +21,74 @@ return array(
                 )
             ),         
             
-            //register dojo view helpers
             'DojoModule\View\Helper\Dojo' => array(
-                'parameters' => array(
-                    'view' => 'Zend\View\Renderer\PhpRenderer',
-                    'broker' => 'Zend\View\HelperBroker',                    
-                    'plugins' => array(
-                        'bootstrap' => 'DojoModule\View\Helper\Dojo\Bootstrap',
-                        'borderContainer' => 'DojoModule\View\Helper\Dojo\BorderContainer',          
-                        'contentPane' => 'DojoModule\View\Helper\Dojo\ContentPane',                                     
-                        'button' => 'DojoModule\View\Helper\Dojo\Button',                             
+                'parameters' => array(                
+                    'modules' => array(
+                        'bootstrap' => 'dojo_bootsrap',                      
                     ),
-                    'bootstrapModule' => 'DojoModule\View\Helper\Dojo\Bootstrap',
                     'dojoRoot' => 'js/dojo_src',
-                    'stylesheets' => array(
-                        '/dojo/resources/dojo.css',
-                        '/dijit/themes/[THEME]/[THEME].css'                        
-                    ),
-                    'theme' => 'claro'
+                    'theme' => 'claro',
+                    'view' => 'Zend\View\Renderer\PhpRenderer'
                 ),                    
             ),
             
-            'DojoModule\View\Helper\Dojo\Bootstrap' => array(
+            'dojo_bootstrap' => array(
                 'parameters' => array(
-                    'module' => 'dojomodule.Bootstrap'
+                    'module' => 'dojomodule.Bootstrap',
+                    'stylesheets' => array(
+                        '/dojo/resources/dojo.css',
+                        '/dijit/themes/[THEME]/[THEME].css'                         
+                    )
                 )
             ),     
             
-            'DojoModule\View\Helper\Dojo\BorderContainer' => array(
+            'dojo_borderContainer' => array(
                 'parameters' => array(
                     'module' => 'dijit.layout.BorderContainer'
                 )
             ),
             
-            'DojoModule\View\Helper\Dojo\ContentPane' => array(
+            'dojo_contentPane' => array(
                 'parameters' => array(
                     'module' => 'dijit.layout.ContentPane'
                 )
             ),
             
-            'DojoModule\View\Helper\Dojo\Button' => array(
+            'dojo_button' => array(
                 'parameters' => array(
                     'module' => 'dijit.form.Button'
                 )
-            ),            
+            ), 
+                        
+            'dojo_enhancedGrid' => array(
+                'parameters' => array(
+                    'module' => 'dojox.grid.EnhancedGrid',
+                    'stylesheets' => array(
+                        '/dojox/grid/enhanced/resources/[THEME]/EnhancedGrid.css', 
+                        '/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',                        
+                    )                    
+                )
+            ),
+            
+            'dojo_checkedMultiSelect' => array(
+                'parameters' => array(
+                    'module' => 'dojox.form.CheckedMultiSelect',
+                    'stylesheets' => array(
+                        '/dojox/form/resources/CheckedMultiSelect.css',                  
+                    )                    
+                )
+            ),
+            
+            'dojo_standby' => array(
+                'parameters' => array(
+                    'module' => 'dojox.widget.standby',
+                    'stylesheets' => array(
+                        '/dojox/widget/Standby/Standby.css',               
+                    )                    
+                )
+            ),
+            
+            //                        'resources/UploaderFileList.css'
         ),
     ),
 );

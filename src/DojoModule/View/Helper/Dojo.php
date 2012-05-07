@@ -7,149 +7,116 @@
 namespace DojoModule\View\Helper;
 
 use Zend\View\Exception,
-    Zend\View\HelperBroker,    
-    Zend\View\Helper\AbstractHelper,
+    Zend\View\Helper\HtmlElement,
     Zend\View\Renderer;
 
-class Dojo extends AbstractHelper
+class Dojo extends HtmlElement
 {
-
-    /**
-     * Helper broker
-     *
-     * @var HelperBroker
-     */
-    private $__helperBroker;
     
+    protected $modules = array();
     protected $dojoRoot;
-    protected $plugins;
-    protected $bootstrapModule;
-    protected $view;
-    protected $stylesheets = array();
     protected $theme;
+
+    public function __construct(array $modules, $dojoRoot, Renderer $view){
+        $this->setModules($modules);
+        $this->setDojoRoot($dojoRoot);
+    }
+
+    public function setTheme($theme) {
+        $this->theme = (string) $theme;
+        return $this;
+    }    
     
-    public function __invoke()
-    {
+    public function getTheme() {
+        return $this->theme;
+    }    
+      
+    public function setDojoRoot($dojoRoot) {
+        $this->dojoRoot = (string) $dojoRoot;
         return $this;
     }
+           
+    public function getModules() {
+        return $this->modules;        
+    }
+
+    public function setModules(array $modules) {
+        $this->modules = $modules;
+        return $this;
+    }
+
+    public function getModule($name){
+        return $this->modules[$name];
+    }
     
-    public function activate()
+    public function setModule(Module $module){
+        $this->module[] = $module;
+    }
+        
+    public function __invoke()
     {
-        $view = $this->view;
-        $bootstrap = $this->bootstrapModule->getModule();
-        $bootstrap = str_replace('.', '/', $bootstrap);           
+        $view= $this->view;         
+        
+        $requiredModules = array();
+        foreach ($this->modules as $module){
+            foreach ($module->getStylesheets() as $stylesheet)
+            {
+                $stylesheet = $this->dojoRoot . str_replace('[THEME]', $this->theme, $stylesheet);
+                $view->headLink()->appendStylesheet($stylesheet);
+            }
+            $requiredModules[] = "'".str_replace('.', '/', $module->getName())."'";
+        }
+
+        $requiredModules =  implode(',', $requiredModules);
         $view->headScript()
             ->setAllowArbitraryAttributes(true)
             ->appendFile($this->dojoRoot.'/dojo/dojo.js', 'text/javascript', array('data-dojo-config' => 'async: true, baseUrl: "/js/dojo_src/dojo"' 
                 ))
             ->appendScript("
-    require(
-        ['dojo/parser', '$bootstrap', 'dojo/domReady!'], 
-        function(parser) {parser.parse();}
-    );          
-                ");
-        
-        foreach ($this->stylesheets as $stylesheet)
-        {
-            $stylesheet = $this->dojoRoot . str_replace('[THEME]', $this->theme, $stylesheet);
-            $view->headLink()->appendStylesheet($stylesheet);
-        }
+require(
+    ['dojo/parser', $requiredModules, 'dojo/domReady!'], 
+    function(parser) {parser.parse();}
+);"
+                );        
     }
-
-    public function setTheme($theme)
-    {
-        $this->theme = $theme;
-        return $this;
-    }    
-    
-    public function getTheme()
-    {
-        return $this->theme;
+  
+    public function render(
+        $name, 
+        array $htmlAttr = array(), 
+        array $dojoAttr = array(),       
+        $content = null
+    ) {
+        $element = $this->getElement($name);        
+        $htmlAttr['data-dojo-type'] = $element->getModule();
+        $htmlAttr['data-dojo-props'] = $this->_dojoAttr($dojoAttr);
+        $html = '<' . $element->getRootNode() . $this->_htmlAttribs($htmlAttr) . '>'
+              . $content
+              . '</'.$element->getRootNode().'>'.self::EOL;        
+        return $html;        
     }
     
-    public function setView(Renderer $view)
-    {
-        $this->view = $view;
-        return $this;
-    }
-    
-    public function setPlugins(array $plugins)
-    {
-        $this->plugins = $plugins;
-        return $this;
-    }
-    
-    public function setDojoRoot($dojoRoot)
-    {
-        $this->dojoRoot = $dojoRoot;
-        return $this;
-    }
-    
-    public function setStylesheets(array $stylesheets)
-    {
-        $this->stylesheets = $stylesheets;
-    }
-    
-    public function setBootstrapModule(Dojo\Element $bootstrapModule)
-    {
-        $this->bootstrapModule = $bootstrapModule;
-    }
-    
-    /**
-     * Set plugin broker instance
-     * 
-     * @param  HelperBroker $broker 
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setBroker(HelperBroker $broker)
-    {
-        $broker->setView($this->view);
-        $loader = $broker->getClassLoader();
-        $loader->registerPlugins($this->plugins);
-        $this->__helperBroker = $broker;
-    }
-
-    /**
-     * Get plugin broker instance
-     * 
-     * @return HelperBroker
-     */
-    public function getBroker()
-    {
-        return $this->__helperBroker;
-    }
-    
-    /**
-     * Get plugin instance
-     * 
-     * @param  string     $plugin  Name of plugin to return
-     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
-     * @return Helper
-     */
-    public function plugin($name, array $options = null)
-    {
-        return $this->getBroker()->load($name, $options);
-    }
-
-    /**
-     * Overloading: proxy to helpers
-     *
-     * Proxies to the attached plugin broker to retrieve, return, and potentially
-     * execute helpers.
-     *
-     * * If the helper does not define __invoke, it will be returned
-     * * If the helper does define __invoke, it will be called as a functor
-     * 
-     * @param  string $method 
-     * @param  array $argv 
-     * @return mixed
-     */
     public function __call($method, $argv)
     {
-        $helper = $this->plugin($method);
-        if (is_callable($helper)) {
-            return call_user_func_array($helper, $argv);
+        return $this->render($method, $argv[0], $argv[1], $argv[2]);
+    } 
+    
+    protected function _dojoAttr($dojoAttr)
+    {
+        $props = '';
+        foreach ($dojoAttr as $key => $value) {
+            if ($value === false) {
+                $props .= $key.': false, ';                
+            } else {
+                if ($value === true) {
+                    $props .= $key.': true, ';                          
+                } else {
+                    if($value != null) {
+                        $props .= $key.':'.$value.', ';                    
+                    }
+                }
+            }
         }
-        return $helper;
+        $props =  substr($props, 0, -2);
+        return $props;
     }    
 }

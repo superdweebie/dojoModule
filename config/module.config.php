@@ -1,15 +1,34 @@
 <?php
 return array(
     'di' => array(
+        'definition' => array(        
+            'class' => array(
+                'DojoModule\View\Helper\Dojo' => array(
+                    'addModule' => array(
+                        'functionName' => array(
+                            'type' => false, 
+                            'required' => true
+                        ),
+                        'module' => array(
+                            'type' => 'DojoModule\View\Helper\Module', 
+                            'required' => true
+                        )                    
+                    )
+                )
+            ),    
+        ),
         'instance' => array(
             'alias' => array(
-                'dojo_bootsrap' => 'DojoModule\View\Helper\Element',
-                'dojo_borderContainer' => 'DojoModule\View\Helper\Element',
-                'dojo_contentPane' => 'DojoModule\View\Helper\Element',
-                'dojo_button' => 'DojoModule\View\Helper\Element',                
-                'dojo_enhancedGrid' => 'DojoModule\View\Helper\Element',      
-                'dojo_checkedMultiSelect' => 'DojoModule\View\Helper\Element',      
-                'dojo_standby' => 'DojoModule\View\Helper\Element',                      
+                'dojo_parser' => 'DojoModule\View\Helper\Module',                
+                'dojo_borderContainer' => 'DojoModule\View\Helper\Module',
+                'dojo_contentPane' => 'DojoModule\View\Helper\Module',
+                'dojo_button' => 'DojoModule\View\Helper\Module',                
+                'dojo_enhancedGrid' => 'DojoModule\View\Helper\Module',      
+                'dojo_checkedMultiSelect' => 'DojoModule\View\Helper\Module',      
+                'dojo_standby' => 'DojoModule\View\Helper\Module',                      
+                'dojo_uploader' => 'DojoModule\View\Helper\Module', 
+                'dojo_uploader_filelist' => 'DojoModule\View\Helper\Module', 
+                'dojo_uploader_html5' => 'DojoModule\View\Helper\Module',                 
             ),
             
             //register dojo view helpers            
@@ -20,21 +39,29 @@ return array(
                     ),
                 )
             ),         
-            
+                       
             'DojoModule\View\Helper\Dojo' => array(
+                'injections' => array(
+                    'addModule' => array(
+                        array('functionName' => 'parser', 'module' => 'dojo_parser'),                    
+                    )
+                ),  
                 'parameters' => array(                
-                    'modules' => array(
-                        'bootstrap' => 'dojo_bootsrap',                      
-                    ),
                     'dojoRoot' => 'js/dojo_src',
                     'theme' => 'claro',
                     'view' => 'Zend\View\Renderer\PhpRenderer'
-                ),                    
+                ),                 
             ),
             
-            'dojo_bootstrap' => array(
+            'DojoModule\View\Helper\Module' => array(
+                'parameters' => array(                
+                    'view' => 'Zend\View\Renderer\PhpRenderer'
+                ),                 
+            ),
+            
+            'dojo_parser' => array(
                 'parameters' => array(
-                    'module' => 'dojomodule.Bootstrap',
+                    'name' => 'dojo.parser',
                     'stylesheets' => array(
                         '/dojo/resources/dojo.css',
                         '/dijit/themes/[THEME]/[THEME].css'                         
@@ -44,25 +71,25 @@ return array(
             
             'dojo_borderContainer' => array(
                 'parameters' => array(
-                    'module' => 'dijit.layout.BorderContainer'
+                    'name' => 'dijit.layout.BorderContainer'
                 )
             ),
             
             'dojo_contentPane' => array(
                 'parameters' => array(
-                    'module' => 'dijit.layout.ContentPane'
+                    'name' => 'dijit.layout.ContentPane'
                 )
             ),
             
             'dojo_button' => array(
                 'parameters' => array(
-                    'module' => 'dijit.form.Button'
+                    'name' => 'dijit.form.Button'
                 )
             ), 
                         
             'dojo_enhancedGrid' => array(
                 'parameters' => array(
-                    'module' => 'dojox.grid.EnhancedGrid',
+                    'name' => 'dojox.grid.EnhancedGrid',
                     'stylesheets' => array(
                         '/dojox/grid/enhanced/resources/[THEME]/EnhancedGrid.css', 
                         '/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',                        
@@ -72,7 +99,7 @@ return array(
             
             'dojo_checkedMultiSelect' => array(
                 'parameters' => array(
-                    'module' => 'dojox.form.CheckedMultiSelect',
+                    'name' => 'dojox.form.CheckedMultiSelect',
                     'stylesheets' => array(
                         '/dojox/form/resources/CheckedMultiSelect.css',                  
                     )                    
@@ -81,14 +108,33 @@ return array(
             
             'dojo_standby' => array(
                 'parameters' => array(
-                    'module' => 'dojox.widget.standby',
+                    'name' => 'dojox.widget.standby',
                     'stylesheets' => array(
                         '/dojox/widget/Standby/Standby.css',               
                     )                    
                 )
             ),
             
-            //                        'resources/UploaderFileList.css'
+            'dojo_uploader' => array(
+                'parameters' => array(
+                    'name' => 'dojox/form/Uploader',                   
+                )
+            ),
+            
+            'dojo_uploader_filelist' => array(
+                'parameters' => array(
+                    'name' => 'dojox.form.uploader.FileList',
+                    'stylesheets' => array(
+                        'dojox/form/resources/UploaderFileList.css',               
+                    )                    
+                )
+            ),
+            
+            'dojo_uploader_html5' => array(
+                'parameters' => array(
+                    'name' => 'dojox.form.uploader.plugins.HTML5',              
+                )
+            ),                    
         ),
     ),
 );

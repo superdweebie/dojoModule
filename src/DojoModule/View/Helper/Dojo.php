@@ -7,20 +7,14 @@
 namespace DojoModule\View\Helper;
 
 use Zend\View\Exception,
-    Zend\View\Helper\HtmlElement,
+    Zend\View\Helper\AbstractHelper,    
     Zend\View\Renderer;
 
-class Dojo extends HtmlElement
-{
+class Dojo extends AbstractHelper {
     
     protected $modules = array();
     protected $dojoRoot;
     protected $theme;
-
-    public function __construct(array $modules, $dojoRoot, Renderer $view){
-        $this->setModules($modules);
-        $this->setDojoRoot($dojoRoot);
-    }
 
     public function setTheme($theme) {
         $this->theme = (string) $theme;
@@ -45,16 +39,19 @@ class Dojo extends HtmlElement
         return $this;
     }
 
-    public function getModule($name){
-        return $this->modules[$name];
+    public function getModule($functionName){
+        return $this->modules[$functionName];
     }
     
-    public function setModule(Module $module){
-        $this->module[] = $module;
+    public function addModule($functionName, Module $module){
+        $this->modules[$functionName] = $module;
     }
         
-    public function __invoke()
-    {
+    public function __invoke() {
+        return $this;
+    }
+    
+    public function activate(){
         $view= $this->view;         
         
         $requiredModules = array();
@@ -79,44 +76,14 @@ require(
 );"
                 );        
     }
-  
-    public function render(
-        $name, 
-        array $htmlAttr = array(), 
-        array $dojoAttr = array(),       
-        $content = null
-    ) {
-        $element = $this->getElement($name);        
-        $htmlAttr['data-dojo-type'] = $element->getModule();
-        $htmlAttr['data-dojo-props'] = $this->_dojoAttr($dojoAttr);
-        $html = '<' . $element->getRootNode() . $this->_htmlAttribs($htmlAttr) . '>'
-              . $content
-              . '</'.$element->getRootNode().'>'.self::EOL;        
-        return $html;        
-    }
-    
+      
     public function __call($method, $argv)
     {
-        return $this->render($method, $argv[0], $argv[1], $argv[2]);
-    } 
-    
-    protected function _dojoAttr($dojoAttr)
-    {
-        $props = '';
-        foreach ($dojoAttr as $key => $value) {
-            if ($value === false) {
-                $props .= $key.': false, ';                
-            } else {
-                if ($value === true) {
-                    $props .= $key.': true, ';                          
-                } else {
-                    if($value != null) {
-                        $props .= $key.':'.$value.', ';                    
-                    }
-                }
-            }
+        if ($argv){
+            $module = $this->getModule($method);
+            return $module->render($argv[0]);
+        } else {
+            return $this->getModule($method);
         }
-        $props =  substr($props, 0, -2);
-        return $props;
-    }    
+    }       
 }

@@ -2,7 +2,11 @@ DojoModule
 ==========
 
 ## Introduction
-DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.7. It aim to replace some of the functionality from the old Dojo package that was part of zf1. DojoModule aims to be lighter than the previous package.
+DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.7. It aims to be a lighter version of what was available with ZF1.
+
+    -View helpers are supported. New dojo module helpers can be configured with the DI, no new classes needed.
+    -Forms are not supported. Zend\Form isn't a great fit with Dojo, and it makes the integration much more complex. (As a suggestions, rather than using Zend\Form, use a view script with the view helpers, and feed form data back through a Dojo object store to a Json controller. Then validate the form data against your model, rather than against the form.)
+    -Dojo layers are not supported at present, but will be.
 
 This is an unfinished work. Please extend and improve liberally.
 
@@ -11,25 +15,25 @@ This is an unfinished work. Please extend and improve liberally.
   
 ## Installation
 
-Recursive clone:
-
-    cd /to/your/project/directory
-    git clone --recursive git://github.com/superdweebie/DojoModule vendor/DojoModule
-
-Or you can add this as a submodule to your .git repository:
+You can add this as a submodule to your own .git repository:
 
     cd /to/your/project/directory
     git submodule add git://github.com/superdweebie/DojoModule  vendor/DojoModule
 
-### Mkae public files accessable
-Copy or symlink all the files in the DojoModule/public/js directory into your applications public/js directory
+Then fetch the dojo submodules with:
+
+    cd vendor/DojoModule
+    git submodule update --init
+
+### Make public files accessable
+Copy or symlink all the files in the DojoModule/public/js directory into your application public/js directory
 	
 ## Configuration
 
 Open `/config/application.config.php` and add 'DojoModule'
 to the 'modules' parameter to register the module within your application.
 
-Copy the from the module, move `config/module.dojomodule.global.config.php.dist` to your `/config/autoload` directory.
+Copy the from the module, move `config/module.dojomodule.global.config.php.dist` to your `/config/autoload` directory, and remove the `dist` suffix.
 
 Open module.dojomodule.global.config.php and uncomment any modules you want to use.
 

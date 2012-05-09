@@ -1,20 +1,67 @@
 <?php
 
+/** 
+ * @package    DojoModule 
+ * @license    LGPL 
+ */
 namespace DojoModule\View\Helper;
 
 use Zend\View\Helper\HtmlElement;
 
+/** 
+ * View helper that defines how to emit a single Dojo module as HTML 
+ *  
+ * @since   1.0 
+ * @version $Revision$ 
+ * @author  Tim Roediger <superdweebie@gmail.com> 
+ */
 class Module extends HtmlElement {
 
-    protected $module;
+    /**
+     * The name of the the dojo module. Eg: dijit.form.Button
+     *
+     * @var string
+     */  
+    protected $name;
+
+    /**
+     * The HTML tag used to encapsulate the Dojo module
+     *
+     * @var string
+     */  
     protected $rootNode = 'div';
+
+    /**
+     * An array of strings which are paths to css files. Paths must be relative to the dojo root set in
+     * /DojoModule/View/Helper/Dojo. If a path contains [THEME], then [THEME] will be replaced by the theme setting in
+     * /DojoModule/View/Helper/Dojo.
+     *
+     * @var Array
+     */  
     protected $stylesheets = array();
-    
+ 
+    /**
+     * An array of ids which have been had the captureStart() function called, but not yet captureEnd().
+     *
+     * @var Array
+     */     
     protected $captureLock = array();
+
+    /**
+     * An array of parameters held whist a capture is being undertaken.
+     *
+     * @var Array
+     */  
     protected $captureInfo = array();
     
+
+    /**    
+     * @param string $name
+     * @return \DojoModule\View\Helper\Module
+     */   
     public function __construct($name){
         $this->setName($name);
+        return $this;
     }
 
     public function getName() {
@@ -23,6 +70,7 @@ class Module extends HtmlElement {
 
     public function setName($name) {
         $this->name = $name;
+        return $this;
     }
 
     public function getRootNode() {
@@ -31,13 +79,16 @@ class Module extends HtmlElement {
 
     public function setRootNode($rootNode) {
         $this->rootNode = $rootNode;
+        return $this;
     }    
+
     public function getStylesheets() {
         return $this->stylesheets;
     }
 
     public function setStylesheets($stylesheets) {
         $this->stylesheets = $stylesheets;
+        return $this;
     } 
     
     public function render(array $options){     

@@ -1,0 +1,28 @@
+{
+    "name": "superdweebie/DojoModule",
+    "description": "Provides Dojo 1.7 module for zf2",
+    "type": "library",
+    "keywords": [
+        "dojo",
+        "zf2"
+    ],
+    "homepage": "http://github.com/superdweebie/DojoModule",
+    "authors": [
+        {
+            "name": "Tim Roediger",
+            "email": "superdweebie@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "DojoModule": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

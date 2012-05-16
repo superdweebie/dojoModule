@@ -4,8 +4,8 @@ DojoModule
 ## Introduction
 DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.7. It aims to be a lighter version of what was available with ZF1.
 
-    -View helpers are supported. New dojo module helpers can be configured with the DI, no new classes needed.
-    -Forms are not supported. Zend\Form isn't a great fit with Dojo, and it makes the integration much more complex. (As a suggestions, rather than using Zend\Form, use a view script with the view helpers, and feed form data back through a Dojo object store to a Json controller. Then validate the form data against your model, rather than against the form.)
+    -View helpers are supported. New dojo module helpers can be configured with the DI only, no need to write new classes.
+    -Forms are not supported. Zend\Form isn't a great fit with Dojo, and it makes the integration much more complex. (As a suggestion, rather than using Zend\Form, use a view script with the view helpers, and feed form data back through a Dojo object store to a Json controller. Then validate the form data against your model, rather than against the form.)
     -Dojo layers are not supported at present, but will be.
 
 This is an unfinished work. Please extend and improve liberally.
@@ -15,18 +15,85 @@ This is an unfinished work. Please extend and improve liberally.
   
 ## Installation
 
-You can add this as a submodule to your own .git repository:
+DojoModule uses composer to install.
 
-    cd /to/your/project/directory
-    git submodule add git://github.com/superdweebie/DojoModule  vendor/DojoModule
+Add the following to your project root composer.json:
 
-Then fetch the dojo submodules with:
+    {
+        "repositories": [
+            {        
+                "type": "package",
+                "package": {
+                    "name": "dojo/dojo",
+                    "version": "1.7.2",
+                    "source": {
+                        "url": "http://github.com/dojo/dojo",
+                        "type": "git",
+                        "reference": "1.7.2"
+                    }
+                }
+            },
+            {        
+                "type": "package",
+                "package": {
+                    "name": "dojo/dijit",
+                    "version": "1.7.2",
+                    "source": {
+                        "url": "http://github.com/dojo/dijit",
+                        "type": "git",
+                        "reference": "1.7.2"
+                    }
+                }
+            },
+            {        
+                "type": "package",
+                "package": {
+                    "name": "dojo/dojox",
+                    "version": "1.7.2",
+                    "source": {
+                        "url": "http://github.com/dojo/dojox",
+                        "type": "git",
+                        "reference": "1.7.2"
+                    }
+                }
+            },
+            {        
+                "type": "package",
+                "package": {
+                    "name": "dojo/util",
+                    "version": "1.7.2",
+                    "source": {
+                        "url": "http://github.com/dojo/util",
+                        "type": "git",
+                        "reference": "1.7.2"
+                    }
+                }
+            }        
+        ], 
+        "require": {
+            "superdweebie/DojoModule": "dev-master",
+            "dojo/dojo" : "1.7.*",
+            "dojo/dijit" : "1.7.*",
+            "dojo/dojox" : "1.7.*",
+            "dojo/util" : "1.7.*"        
+        }
+    }
 
-    cd vendor/DojoModule
-    git submodule update --init
+Then run composer from your project root:
 
-### Make public files accessable
-Copy or symlink all the files in the DojoModule/public/js directory into your application public/js directory
+    composer.phar install
+
+Under your project's public directory, create the following new directory:
+
+    myproject/public/js/dojo_src/
+
+Then copy or symlink the following directories:
+
+    myproject/vendor/dojo/dojo -> myproject/public/js/dojo_src/dojo
+    myproject/vendor/dojo/dijit -> myproject/public/js/dojo_src/dijit
+    myproject/vendor/dojo/dojox -> myproject/public/js/dojo_src/dojox
+
+Now you're ready to roll!
 	
 ## Configuration
 
@@ -102,5 +169,6 @@ Then to use your module in a view script:
     echo $this->dojo()->mymodule(array('id' => 'mymoduleid'))
 
 ## Generating Dojo layers
+
 Integration with the dojo build tools is still to be done (want to help?). But,
 you can get a list of all the modules loaded with $this->dojo()->getModules();

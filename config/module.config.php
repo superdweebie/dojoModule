@@ -1,5 +1,31 @@
 <?php
 return array(
+    'view_manager' => array(
+        'helper_map' => array(
+            'dojo' => 'DojoModule\View\Helper\Dojo'
+        )        
+    ),
+
+    'di' => array(                
+        'instance' => array(                              
+    
+            'Application\Controller\IndexController' => array(
+                'parameters' => array(
+                    'documentManager' => 'mongo_dm',
+                    'activeUser' => 'active_user',                    
+                )
+            ),                    
+            
+            'sdsDojo_bootstrap' => array(
+                'parameters' => array(
+                    'stylesheets' => array(
+                        '/application/themes/[THEME]/[THEME].css',                 
+                    )                    
+                )
+            ),                           
+        ),
+    ),
+    
     'di' => array(
         'definition' => array(        
             'class' => array(
@@ -31,15 +57,7 @@ return array(
                 'dojo_uploader_html5' => 'DojoModule\View\Helper\Module',                 
             ),
             
-            //register dojo view helpers            
-            'Zend\View\HelperLoader' => array(
-                'parameters' => array(
-                    'map' => array(
-                        'dojo' => 'DojoModule\View\Helper\Dojo',
-                    ),
-                )
-            ),         
-                       
+            //register dojo view helpers                                         
             'DojoModule\View\Helper\Dojo' => array(
                 'injections' => array(
                     'addModule' => array(

@@ -5,9 +5,10 @@
  */
 namespace DojoModule\View\Helper;
 
-use Zend\View\Exception,
-    Zend\View\Helper\AbstractHelper,    
-    Zend\View\Renderer;
+use Zend\View\Exception;
+use Zend\View\Helper\AbstractHelper;
+use Zend\View\Renderer;
+use DojoModule\View\Helper\Module;
 
 /**
  * View helper for emitting Dojo elements as HTML
@@ -19,12 +20,19 @@ use Zend\View\Exception,
 class Dojo extends AbstractHelper {
 
     /**
-     * An array of \DojoModule\View\Heper\Module instances which are 
+     * An array of \DojoModule\View\Heper\Module instances | config arrays which are 
      * available for the view helper to use.
      *
      * @var Array
      */    
     protected $modules = array();
+
+    /**
+     * An array of module aliases that must be emitted.
+     *
+     * @var Array
+     */     
+    protected $requireModules = array();
     
     /**
      * The root path on disk of the dojo js files, relative to the zf2 
@@ -40,7 +48,7 @@ class Dojo extends AbstractHelper {
      * @var Array
      */       
     protected $theme;
-
+    
     /**
      * Sets the dojo theme to use.
      *
@@ -92,7 +100,7 @@ class Dojo extends AbstractHelper {
     }
 
     /**
-     * Sets an array of \DojoModule\View\Heper\Module instances which are 
+     * Sets an array of \DojoModule\View\Heper\Module instances | config arrays which are 
      * available for the view helper to use.
      *
      * @param array $modules
@@ -106,27 +114,52 @@ class Dojo extends AbstractHelper {
     /**
      * Gets a single module.
      *
-     * @param string $functionName
+     * @param string $alias
      * @return \DojoModule\View\Helper\Module
      */      
-    public function getModule($functionName){
-        return $this->modules[$functionName];
+    public function getModule($alias){
+        if(!isset($this->modules[$alias])){
+            throw new \Exception(sprintf('Dojo module with alias %s not found', $alias));
+        }
+        if(!($this->modules[$alias] instanceof Module)){
+            $config = $this->modules[$alias];
+            $module = new Module($config['name']);
+            if(isset($config['rootNode'])){
+                $module->setRootNode($config['rootNode']);
+            }
+            if(isset($config['stylesheets'])){
+                $module->setStylesheets($config['stylesheets']);
+            }
+            $module->setView($this->view);
+            $this->modules[$alias] = $module;
+        }
+        return $this->modules[$alias];
     }
     
     /**
-     * Adds a \DojoModule\View\Heper\Module instance so it is ready for the 
-     * view helper to use. The $functionName is the alias that is used to call the
-     * module inside a view script: eg `$this->dojo()->myFunctionName(args)`
+     * Sets the array of module aliases that must be emited by the dojo.
+     *
+     * @param string $requireModules 
+     * @return \DojoModule\View\Helper\Module
+     */        
+    public function setRequireModules(array $requireModules){
+        $this->requireModules = $requireModules;
+        return $this;
+    }
+    
+    /**
+     * Adds a module to the list of require modules that will be emitted by dojo.
      *
      * @param string $functionName
      * @param \DojoModule\View\Heper\Module $module
      * @return \DojoModule\View\Helper\Dojo
      */    
-    public function addModule($functionName, Module $module){
-        $this->modules[(string)$functionName] = $module;
+    public function addRequireModule($alias){
+        
+        $this->requireModules[] = (string) $alias;
         return $this;
     }
-        
+
     /**
      * Does nothing.
      *
@@ -145,26 +178,30 @@ class Dojo extends AbstractHelper {
     public function activate(){
         $view= $this->view;         
         
-        $requiredModules = array();
-        foreach ($this->modules as $module){
+        $requires = array();
+        foreach ($this->requireModules as $alias){
+            $module = $this->getModule($alias);
             foreach ($module->getStylesheets() as $stylesheet)
             {
-                $stylesheet = $this->dojoRoot . str_replace('[THEME]', $this->theme, $stylesheet);
+                $stylesheet = $this->dojoRoot .'/'. str_replace('[THEME]', $this->theme, $stylesheet);
                 $view->headLink()->appendStylesheet($stylesheet);
             }
-            $requiredModules[] = "'".str_replace('.', '/', $module->getName())."'";
+            $requires[] = "'".$module->getName()."'";
         }
 
-        $requiredModules =  implode(',', $requiredModules);
+        $requires =  implode(',', $requires);
         $view->headScript()
             ->setAllowArbitraryAttributes(true)
-            ->appendFile($this->dojoRoot.'/dojo/dojo.js', 'text/javascript', array('data-dojo-config' => 'async: true, baseUrl: "/js/dojo_src/dojo"' 
-                ))
+            ->appendFile(
+                $this->dojoRoot.'/dojo/dojo.js', 
+                'text/javascript', 
+                array('data-dojo-config' => 'async: true, baseUrl: "/'.$this->dojoRoot.'/dojo"' )
+            )
             ->appendScript("
-require(
-    ['dojo/parser', $requiredModules, 'dojo/domReady!'], 
-    function(parser) {parser.parse();}
-);"
+                require(
+                    [$requires, 'dojo/domReady!'], 
+                    function(parser) {parser.parse();}
+                );"
             );        
     }
       

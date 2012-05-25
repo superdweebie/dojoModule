@@ -15,6 +15,7 @@ class Module implements ConfigProviderInterface
         return array(
             'factories' => array(
                 'DojoModule\View\Helper\Dojo' => 'DojoModule\Service\DojoFactory',
+                'dojo_cli' => 'DojoModule\Service\CliFactory',                
             )
         );
     }     

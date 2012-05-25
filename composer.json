@@ -15,7 +15,11 @@
     ],
     "require": {
         "php": ">=5.3",
-        "symfony/console": "2.0.*"        
+        "symfony/console": "2.0.*",
+        "dojo/dojo" : "1.7.*",
+        "dojo/dijit" : "1.7.*",
+        "dojo/dojox" : "1.7.*",
+        "dojo/util" : "1.7.*"         
     },
 
     "autoload": {

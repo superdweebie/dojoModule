@@ -2,18 +2,18 @@ DojoModule
 ==========
 
 ## Introduction
-DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.7. It aims to be a lighter version of what was available with ZF1.
+DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.7.
 
-    -View helpers are supported. New dojo module helpers can be configured with the DI only, no need to write new classes.
-    -Forms are not supported. Zend\Form isn't a great fit with Dojo, and it makes the integration much more complex. (As a suggestion, rather than using Zend\Form, use a view script with the view helpers, and feed form data back through a Dojo object store to a Json controller. Then validate the form data against your model, rather than against the form.)
-    -Dojo layers are not supported at present, but will be.
+    -View helpers are supported. New dojo module helpers can be configured with the module config only, no need to write new classes.
+    -Forms are not supported at this point.
+    -Dojo build profiles are supported.
 
 This is an unfinished work. Please extend and improve liberally.
 
 ## Requirements
   * Zend Framework 2 (https://github.com/zendframework/zf2)
   
-## Installation
+## Installation Packages
 
 DojoModule uses composer to install.
 
@@ -71,17 +71,43 @@ Add the following to your project root composer.json:
             }        
         ], 
         "require": {
-            "superdweebie/DojoModule": "dev-master",
-            "dojo/dojo" : "1.7.*",
-            "dojo/dijit" : "1.7.*",
-            "dojo/dojox" : "1.7.*",
-            "dojo/util" : "1.7.*"        
+            "superdweebie/DojoModule": "dev-master",       
         }
     }
 
 Then run composer from your project root:
 
     composer.phar install
+
+Open your application.config.php and add `DojoModule`.
+
+##Installing built Dojo
+
+DojoModule will help build dojo for you. This is the quickest and simplest way to get started, however,
+if you are developing your own dojo modules, you will want to intall the Dojo source as 
+outlined below.
+
+To build dojo, first create a build profile. Go to directory:
+
+    vendor/bin
+
+And run:
+
+    dojo-module profile
+
+This will create a build profile at data/dojoModule.profile.js
+
+Then got to directory:
+
+    vendor/dojo/util/buildscripts
+
+And run:
+
+    build --profile data\dojoModule.profile.js
+
+Dojo will be built to `public\js\dojo_rel`
+
+##Installing Dojo source
 
 Under your project's public directory, create the following new directory:
 
@@ -93,16 +119,21 @@ Then copy or symlink the following directories:
     myproject/vendor/dojo/dijit -> myproject/public/js/dojo_src/dijit
     myproject/vendor/dojo/dojox -> myproject/public/js/dojo_src/dojox
 
-Now you're ready to roll!
+Finally, add the following to application.config.php:
+
+    'dojo' => array(
+        'activeDojoRoot' => 'source',
+    )
 	
 ## Configuration
 
-Open `/config/application.config.php` and add 'DojoModule'
-to the 'modules' parameter to register the module within your application.
+Add any dojo modules you want to use to the `requires` array of a config file. Eg:
 
-Copy the from the module, move `config/module.dojomodule.global.config.php.dist` to your `/config/autoload` directory, and remove the `dist` suffix.
-
-Open module.dojomodule.global.config.php and uncomment any modules you want to use.
+    'dojo' => array(
+        'require' => array(
+            'button',                
+        ),
+    ),
 
 ## Basic DojoModule Usage
 
@@ -139,36 +170,9 @@ The arguments for the view helpers is an options array. The following values wil
 
 ## Overriding and extending config
 
-If you want to add further dojo modules, add the following to the DI config:
+If you want to add further dojo modules, add to the `modules` array in a config. You can overide
+module configs, and specify stylesheets.
 
-    'instance' => array(
-        'alias' => array(
-            'dojo_mymodule' => 'DojoModule\View\Helper\Module'
-        )
+## Customising Dojo build
 
-        'dojo_mymodule' => array(
-            'parameters' => array(
-                'name' => 'mydojo.mymodule',
-                'stylesheets' => array(
-                    '/mydojo/resources/mymodule.css',                         
-                )                    
-            )
-        ),
-
-        'DojoModule\View\Helper\Dojo' => array(
-            'injections' => array(
-                'addModule' => array(
-                    array('functionName' => 'mymodule', 'module' => 'dojo_mymodule'),                    
-                )
-            ),                   
-        ),
-    )
-
-Then to use your module in a view script:
-    
-    echo $this->dojo()->mymodule(array('id' => 'mymoduleid'))
-
-## Generating Dojo layers
-
-Integration with the dojo build tools is still to be done (want to help?). But,
-you can get a list of all the modules loaded with $this->dojo()->getModules();
+Overide the `build` array in config and follow the insturctions under Installing Built Dojo

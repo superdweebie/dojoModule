@@ -2,9 +2,10 @@
 
 namespace DojoModule\Tools\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console;
+use Zend\Json\Json;
 
 class Profile extends Console\Command\Command
 {
@@ -32,6 +33,7 @@ EOT
         $buildConfig = $config['build'];
         $profile = array();
         $packages = array();
+        $requires = array();
         
         foreach($buildConfig['packages'] as $name => $path){
             $packages[] = array(
@@ -39,6 +41,11 @@ EOT
                 'location' => $path
             );
         } 
+        
+        foreach($config['require'] as $require){
+            $requires[]  = $config['modules'][$require]['name'];
+        }
+        
         $profile = array(
             'basePath' => $buildConfig['basePath'],
             'releaseDir' => $buildConfig['releaseDir'],
@@ -50,13 +57,13 @@ EOT
             'packages' => $packages,
             'layers' => array(
                 'dojo/dojo' => array(
-                    'include' => $config['require'],
+                    'include' => $requires,
                     'custombase' => true,
                     'boot' => true
                 )
             )            
         );
-        $profile =Zend\Json::prettyPrint(json_encode($profile));
+        $profile =Json::prettyPrint(Json::encode($profile));
         $profile = "
             var profile = $profile
 
@@ -64,7 +71,13 @@ EOT
                 Packages.com.google.javascript.jscomp.Compiler.setLoggingLevel(Packages.java.util.logging.Level.WARNING);
             } 
         ";        
+
+        $output->write($profile . PHP_EOL);
         
-        $output->write($profile . PHP_EOL);            
+        if (file_put_contents($buildConfig['profile'], $profile)){
+            $output->write('Profile created at ' .$buildConfig['profile']);
+        } else {
+            $output->write('Profile creation failed at ' .$buildConfig['profile']);            
+        }
     }
 }

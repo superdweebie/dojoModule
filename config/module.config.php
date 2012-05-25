@@ -12,7 +12,8 @@ return array(
             'release' => 'js/dojo_rel'
         ),
         'build' => array(
-            'profilePath' => 'data',
+            'profile' => 'data/dojoModule.profile.js',
+            'basePath' => '../',
             'releaseDir' => 'public/js/dojo_rel',
             'action' => 'release', 
             'cssOptimize' => 'comments',
@@ -28,8 +29,7 @@ return array(
         ),
         'theme' => 'claro',
         'require' => array(
-            'parser',      
-            'dojo',            
+            'parser',                
         ),
         'modules' => array(
             'dojo' => array(

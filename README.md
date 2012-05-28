@@ -81,6 +81,8 @@ Then run composer from your project root:
 
 Open your application.config.php and add `DojoModule`.
 
+Finally, copy `module.dojo.global.php.dist` to your `config/autoload` directory and rename.
+
 ##Installing built Dojo
 
 DojoModule will help build dojo for you. This is the quickest and simplest way to get started, however,
@@ -134,6 +136,8 @@ Add any dojo modules you want to use to the `requires` array of a config file. E
             'button',                
         ),
     ),
+
+For convenience, you can simply uncomment the desired lines in the `module.dojo.global.php` config file.
 
 ## Basic DojoModule Usage
 

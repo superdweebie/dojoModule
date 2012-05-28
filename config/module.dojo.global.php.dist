@@ -1,0 +1,19 @@
+<?php
+
+return array(
+    'dojo' => array(
+        'activeDojoRoot' => 'source',
+    ),
+    'require' => array(
+//        'dojo',
+//        'borderContainer',
+//        'contentPane',
+//        'button',
+//        'enhancedGrid',
+//        'checkedMultiSelect',
+//        'standby',
+//        'uploader',
+//        'uploaderFilelist',
+//        'uploaderHtml5'
+    ),    
+);

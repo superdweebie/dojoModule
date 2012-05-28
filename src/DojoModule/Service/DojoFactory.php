@@ -1,13 +1,27 @@
 <?php
-
+/**
+ * @package    DojoModule
+ * @license    MIT
+ */
 namespace DojoModule\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use DojoModule\View\Helper\Dojo;
 
+/**
+ * Factory to Dojo view helper
+ * 
+ * @since   1.0
+ * @version $Revision$
+ * @author  Tim Roediger <superdweebie@gmail.com>
+ */
 class DojoFactory implements FactoryInterface
 {
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \DojoModule\View\Helper\Dojo
+     */       
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');

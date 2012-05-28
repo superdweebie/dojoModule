@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @package    DojoModule
+ * @license    MIT
+ */
 namespace DojoModule\Service;
 
 use Symfony\Component\Console\Application;
@@ -7,8 +10,21 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Factory to create the CLI app used to generate a dojo build profile
+ * 
+ * @since   1.0
+ * @version $Revision$
+ * @author  Tim Roediger <superdweebie@gmail.com>
+ */
 class CliFactory implements FactoryInterface
 {
+    /**
+     * Sets the dojo theme to use.
+     *
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \Symfony\Component\Console\Application
+     */      
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');

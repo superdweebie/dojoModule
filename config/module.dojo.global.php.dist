@@ -5,6 +5,8 @@ return array(
         'activeDojoRoot' => 'source',
     ),
     'require' => array(
+          //Uncomment modules required below
+        
 //        'dojo',
 //        'borderContainer',
 //        'contentPane',

@@ -2,6 +2,7 @@
     "name": "superdweebie/DojoModule",
     "description": "Provides Dojo 1.7 module for zf2",
     "type": "library",
+    "license": "MIT",    
     "keywords": [
         "dojo",
         "zf2"

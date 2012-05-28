@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    DojoModule
+ * @license    MIT
+ */
 namespace DojoModule;
 
 use Zend\ModuleManager\Feature\ConfigProviderInterface;

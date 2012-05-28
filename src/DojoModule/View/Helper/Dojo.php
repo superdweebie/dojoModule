@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    DojoModule
- * @license    LGPL
+ * @license    MIT
  */
 namespace DojoModule\View\Helper;
 

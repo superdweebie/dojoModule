@@ -8,8 +8,8 @@ return array(
     'dojo' => array(
         'activeDojoRoot' => 'release',
         'dojoRoots' => array(
-            'source' => 'js/dojo_src',
-            'release' => 'js/dojo_rel'
+            'source' => '/js/dojo_src',
+            'release' => '/js/dojo_rel'
         ),
         'build' => array(
             'profile' => 'data/dojoModule.profile.js',

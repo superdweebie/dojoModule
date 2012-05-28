@@ -195,7 +195,7 @@ class Dojo extends AbstractHelper {
             ->appendFile(
                 $this->dojoRoot.'/dojo/dojo.js', 
                 'text/javascript', 
-                array('data-dojo-config' => 'async: true, baseUrl: "/'.$this->dojoRoot.'/dojo"' )
+                array('data-dojo-config' => 'async: true, baseUrl: "'.$this->dojoRoot.'/dojo"' )
             )
             ->appendScript("
                 require(

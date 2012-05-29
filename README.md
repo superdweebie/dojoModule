@@ -71,7 +71,11 @@ Add the following to your project root composer.json:
             }        
         ], 
         "require": {
-            "superdweebie/DojoModule": "dev-master",       
+            "superdweebie/DojoModule": "dev-master",    
+            "dojo/dojo" : "1.7.*",
+            "dojo/dijit" : "1.7.*",
+            "dojo/dojox" : "1.7.*",
+            "dojo/util" : "1.7.*"     
         }
     }
 

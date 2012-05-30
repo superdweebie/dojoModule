@@ -123,7 +123,11 @@ class Dojo extends AbstractHelper {
         }
         if(!($this->modules[$alias] instanceof Module)){
             $config = $this->modules[$alias];
-            $module = new Module($config['name']);
+            if(isset($config['class'] && $config['class'] != 'DojoModule\View\Helper\Module')){                
+                $module = new {$config['class']}($config['name']);
+            } else {
+                $module = new Module($config['name']);
+            }
             if(isset($config['rootNode'])){
                 $module->setRootNode($config['rootNode']);
             }

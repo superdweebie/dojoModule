@@ -11,4 +11,9 @@ DojoModule is a module for Zend Framework 2 that will enable easy use of Dojo 1.
 
 This is an unfinished work. Please extend and improve liberally.
 
-See the [manual](docs/manual/contents.md) for install and usage information.
+## Contents
+
+[install](install.md)
+[adding required dojo modules](requires.md)
+[usage](usage.md)
+[api](api.md)

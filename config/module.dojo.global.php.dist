@@ -1,12 +1,10 @@
 <?php
+<?php
 
 return array(
     'dojo' => array(
-        'activeDojoRoot' => 'source',
-    ),
-    'require' => array(
-          //Uncomment modules required below
-        
+        'activeDojoRoot' => 'release',
+        'require' => array(
 //        'dojo',
 //        'borderContainer',
 //        'contentPane',
@@ -17,5 +15,6 @@ return array(
 //        'uploader',
 //        'uploaderFilelist',
 //        'uploaderHtml5'
+        ),
     ),    
 );

@@ -3,7 +3,9 @@ DojoModule
 
 ## Api documentation
 
-To use the api documentation, you will need phpDocumentor2 installed. Run the following two commands:
+You will find api documentation [here](../api/index.html).
+
+Occasionally the generated api docs may not be up to date. To refesh them, install phpDocumentor2 and run the following commands:
 
     cd DojoModule/docs/api
     phpdoc

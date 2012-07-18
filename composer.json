@@ -1,5 +1,5 @@
 {
-    "name": "superdweebie/DojoModule",
+    "name": "superdweebie/dojo-module",
     "description": "Provides Dojo 1.7 module for zf2",
     "type": "library",
     "license": "MIT",    
@@ -22,8 +22,7 @@
 
     "autoload": {
         "psr-0": {
-            "DojoModule": "src/",
-            "DojoModuleTest": "tests/"            
+            "DojoModule": "src/"
         }
     },
     "bin": [

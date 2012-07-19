@@ -16,8 +16,12 @@
     ],
     "require": {
         "php": ">=5.3",
-        "symfony/console": "2.0.*",
-        "zendframework/zendframework": "dev-master"
+        "symfony/console": "2.1.*",
+        "zendframework/zendframework": "dev-master",
+        "dojo/dojo" : "1.7.*",
+        "dojo/dijit" : "1.7.*",
+        "dojo/dojox" : "1.7.*",
+        "dojo/util" : "1.7.*"
     },
     "autoload": {
         "psr-0": {

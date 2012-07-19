@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 5.4
+
+before_script:
+  - git clone git://github.com/zendframework/ZendSkeletonApplication.git
+  - cd ZendSkeletonApplication
+  - rm .gitmodules
+  - git rm --cached vendor/ZF2
+  - cp ../dojoModule/tests/composer.json ./
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
+  - rm -rf vendor/superdweebie/dojo-module
+  - cp -r ../dojoModule vendor/superdweebie/
+  - mv vendor/superdweebie/dojoModule vendor/superdweebie/dojo-module
+
+script:
+  - cd vendor/superdweebie/dojo-module
+  - phpunit

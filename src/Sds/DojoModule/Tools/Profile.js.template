@@ -1,0 +1,5 @@
+var profile = <profile>
+
+if (typeof Packages !== 'undefined' && Packages.com.google.javascript.jscomp.Compiler) {
+    Packages.com.google.javascript.jscomp.Compiler.setLoggingLevel(Packages.java.util.logging.Level.WARNING);
+}

@@ -1,26 +1,19 @@
 <?php
 /**
- * @package    DojoModule
+ * @package    Sds
  * @license    MIT
  */
-namespace DojoModule;
+namespace Sds\DojoModule;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-
-class Module implements ConfigProviderInterface
+/**
+ *
+ * @since   1.0
+ * @author  Tim Roediger <superdweebie@gmail.com>
+ */
+class Module
 {
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        return include __DIR__ . '/../../../config/module.config.php';
     }
-    
-    public function getServiceConfiguration()
-    {
-        return array(
-            'factories' => array(
-                'DojoModule\View\Helper\Dojo' => 'DojoModule\Service\DojoFactory',
-                'dojo_cli' => 'DojoModule\Service\CliFactory',                
-            )
-        );
-    }     
 }

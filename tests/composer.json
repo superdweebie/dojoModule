@@ -1,0 +1,7 @@
+{
+    "require": {
+        "superdweebie/dojo-module": "dev-master",
+        "superdweebie/module-unit-tester": "dev-master",
+        "zendframework/zendframework": "dev-master"
+    }
+}

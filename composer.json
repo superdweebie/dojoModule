@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=5.3",
-        "symfony/console": "2.1.*",
+        "symfony/console": "2.1.x-dev",
         "zendframework/zendframework": "dev-master",
         "dojo/dojo" : "1.7.*",
         "dojo/dijit" : "1.7.*",

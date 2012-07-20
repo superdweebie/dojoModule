@@ -1,4 +1,5 @@
 {
+    "repositories": [{ "type": "composer", "url": "https://raw.github.com/superdweebie/dojoModule/master" }],    
     "require": {
         "superdweebie/dojo-module": "dev-master",
         "superdweebie/module-unit-tester": "dev-master",

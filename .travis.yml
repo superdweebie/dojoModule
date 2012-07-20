@@ -15,7 +15,11 @@ before_script:
   - rm -rf vendor/superdweebie/dojo-module
   - cp -r ../dojoModule vendor/superdweebie/
   - mv vendor/superdweebie/dojoModule vendor/superdweebie/dojo-module
-
+  - rm config/application.config.php
+  - cp ../dojoModule/tests/TestConfiguration.php.dist config/
+  - mv config/TestConfiguration.php.dist config/application.config.php 
+  
 script:
+  - ./vendor/bin/dojo-module generate:profile
   - cd vendor/superdweebie/dojo-module
   - phpunit

@@ -20,6 +20,9 @@ before_script:
   - mv config/TestConfiguration.php.dist config/application.config.php 
   
 script:
-  - ./vendor/bin/dojo-module generate:profile
+  - ls
+  - cd vendor/bin
+  - ls
+  - dojo-module generate:profile
   - cd vendor/superdweebie/dojo-module
   - phpunit

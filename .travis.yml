@@ -17,5 +17,6 @@ before_script:
   - mv vendor/superdweebie/dojoModule vendor/superdweebie/dojo-module
 
 script:
+  - ./vendor/bin/dojo-module generate:profile
   - cd vendor/superdweebie/dojo-module
   - phpunit

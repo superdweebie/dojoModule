@@ -27,7 +27,7 @@ class CliFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration')['sds']['dojo'];
+        $config = $serviceLocator->get('Config')['sds']['dojo'];
         $configHelper  = new \Sds\DojoModule\Tools\Console\Helper\ConfigHelper($config);
         $helperSet     = new HelperSet;
         $helperSet->set($configHelper, 'config');

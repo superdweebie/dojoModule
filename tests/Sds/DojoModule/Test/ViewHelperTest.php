@@ -3,6 +3,7 @@
 namespace Sds\DojoModule\Test\Model;
 
 use Sds\ModuleUnitTester\AbstractTest;
+use Zend\View\Renderer\PhpRenderer;
 
 class ViewHelperTest extends AbstractTest{
 
@@ -16,8 +17,9 @@ class ViewHelperTest extends AbstractTest{
 
     public function testViewHelperPersist(){
 
-        $view = $this->serviceManager->get('Zend\View\Renderer\PhpRenderer');
-
+        $view = new PhpRenderer();
+        $view->setHelperPluginManager($this->serviceManager->get('ViewHelperManager'));
+        
         $view->dojo()->activate();
 
         $headLink = $view->headLink();

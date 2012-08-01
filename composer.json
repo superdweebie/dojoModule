@@ -22,7 +22,7 @@
         "dojo/dijit" : "1.8.0rc1",
         "dojo/dojox" : "1.8.0rc1",
         "dojo/util" : "1.8.0rc1",
-        "superdweebie/jsonController" : "dev-master"
+        "superdweebie/json-controller" : "dev-master"
     },
     "autoload": {
         "psr-0": {

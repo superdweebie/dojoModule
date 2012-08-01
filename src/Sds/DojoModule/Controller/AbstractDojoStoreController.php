@@ -1,17 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Sds\DojoModule\Controller;
 
-/**
- * Description of AbstractDojoStoreController
- *
- * @author Team Roediger
- */
-class AbstractDojoStoreController {
-    //put your code here
+use Sds\JsonController\AbstractJsonRestfulController;
+
+abstract class AbstractDojoStoreController extends AbstractJsonRestfulController
+{
+
 }
-
-?>

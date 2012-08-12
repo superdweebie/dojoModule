@@ -18,10 +18,7 @@
         "php": ">=5.3",
         "symfony/console": ">=2.0.13",
         "zendframework/zendframework": "dev-master",
-        "dojo/dojo" : "1.8.0rc1",
-        "dojo/dijit" : "1.8.0rc1",
-        "dojo/dojox" : "1.8.0rc1",
-        "dojo/util" : "1.8.0rc1",
+        "superdweebie/dojo" : "dev-master",
         "superdweebie/json-controller" : "dev-master"
     },
     "autoload": {

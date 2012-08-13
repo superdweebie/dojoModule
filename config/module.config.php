@@ -16,9 +16,7 @@ return array(
             //of target layer names. This is used by the build profile generator
             //to specify the modules to include for each layer
             'require' => array(
-                'dojo/parser' => array(
-                    'dojo/dojo'
-                )
+                'dojo/parser'
             ),
             'build' => array(
                 'profilePath' => 'data/dojo-module.profile.js',
@@ -39,6 +37,9 @@ return array(
                     'dojo/dojo' => array(
                         'custombase' => true,
                         'boot' => true,
+                        'include' => array(
+                            'dojo/parser'
+                        )
                     ),
                 ),
             ),

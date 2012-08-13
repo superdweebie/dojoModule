@@ -19,7 +19,6 @@ class ProfileGenerator
     {
         $buildConfig = $config['build'];
         $packages = array();
-        $requires = array();
 
         foreach($buildConfig['packages'] as $name => $path){
             $packages[] = array(
@@ -37,13 +36,7 @@ class ProfileGenerator
             'stripConsole' => $buildConfig['stripConsole'],
             'selectorEngine' => $buildConfig['selectorEngine'],
             'packages' => $packages,
-            'layers' => array(
-                'dojo/dojo' => array(
-                    'include' => $config['require'],
-                    'custombase' => true,
-                    'boot' => true
-                )
-            )
+            'layers' => $buildConfig['layers']
         );
 
         $profile =Json::prettyPrint(Json::encode($profile));

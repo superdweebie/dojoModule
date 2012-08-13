@@ -44,6 +44,8 @@ class Dojo extends AbstractHelper {
      */
     protected $stylesheets = array();
 
+    protected $layer;
+
     /**
      * Sets the dojo theme to use.
      *
@@ -117,6 +119,14 @@ class Dojo extends AbstractHelper {
         $this->stylesheets = $stylesheets;
     }
 
+    public function getLayer() {
+        return $this->layer;
+    }
+
+    public function setLayer($layer) {
+        $this->layer = $layer;
+    }
+
     /**
      * Does nothing.
      *
@@ -147,14 +157,27 @@ class Dojo extends AbstractHelper {
         }
 
         $renderedRequires =  implode(',', $renderedRequires);
-        $view->headScript()
-            ->setAllowArbitraryAttributes(true)
-            ->appendFile(
-                $this->dojoRoot.'/dojo/dojo.js',
+        
+        $view->headScript()->setAllowArbitraryAttributes(true);
+
+        if (isset($this->layer)) {
+            //Append compiled layer if specified
+            $view->headScript()->appendFile(
+                $this->dojoRoot . '/' . $this->layer . '.js',
                 'text/javascript',
                 array('data-dojo-config' => 'async: true, baseUrl: "'.$this->dojoRoot.'/dojo"' )
-            )
-            ->appendScript("require([$renderedRequires, 'dojo/domReady!'], function(parser) {parser.parse();})"
             );
+        } else {
+            //Append dojo.js if no layer specified
+            $view->headScript()->appendFile(
+                $this->dojoRoot . '/dojo/dojo.js',
+                'text/javascript',
+                array('data-dojo-config' => 'async: true, baseUrl: "'.$this->dojoRoot.'/dojo"' )
+            );
+        }
+
+        $view->headScript()->appendScript(
+            "require([$renderedRequires, 'dojo/domReady!'], function(parser) {parser.parse();})"
+        );
     }
 }

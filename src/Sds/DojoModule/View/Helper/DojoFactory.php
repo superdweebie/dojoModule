@@ -30,6 +30,7 @@ class DojoFactory implements FactoryInterface
         $instance->setDojoRoot($config['dojoRoots'][$config['activeDojoRoot']]);
         $instance->setRequires($config['require']);
         $instance->setStylesheets($config['stylesheets']);
+        $instance->setLayer($config['layer']);
         return $instance;
     }
 }

@@ -7,6 +7,19 @@ return array(
                 'source' => 'js/dojo_src',
                 'release' => 'js/dojo_rel'
             ),
+            'theme' => 'claro',
+
+            //An layer to load. If null, will default to baseless dojo
+            'layer' => null,
+
+            //An array of modules to require. Each module may also define an array
+            //of target layer names. This is used by the build profile generator
+            //to specify the modules to include for each layer
+            'require' => array(
+                'dojo/parser' => array(
+                    'dojo/dojo'
+                )
+            ),
             'build' => array(
                 'profilePath' => 'data/dojo-module.profile.js',
                 'basePath' => '../',
@@ -22,10 +35,12 @@ return array(
                     'dijit' => 'vendor/dojo/dijit',
                     'dojox' => 'vendor/dojo/dojox'
                 ),
-            ),
-            'theme' => 'claro',
-            'require' => array(
-                'dojo/parser'
+                'layers' => array(
+                    'dojo/dojo' => array(
+                        'custombase' => true,
+                        'boot' => true,
+                    ),
+                ),
             ),
             'stylesheets' => array(
                 'dojo/parser' => array(

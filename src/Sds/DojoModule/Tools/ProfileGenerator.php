@@ -27,18 +27,10 @@ class ProfileGenerator
             );
         }
 
-        $profile = array(
-            'basePath' => $buildConfig['basePath'],
-            'releaseDir' => $buildConfig['releaseDir'],
-            'action' => $buildConfig['action'],
-            'cssOptimize' => $buildConfig['cssOptimize'],
-            'layerOptimize' => $buildConfig['layerOptimize'],
-            'stripConsole' => $buildConfig['stripConsole'],
-            'selectorEngine' => $buildConfig['selectorEngine'],
-            'packages' => $packages,
-            'layers' => $buildConfig['layers']
-        );
-
+        $profile = $buildConfig;
+        unset($profile['profilePath']);
+        $profile['packages'] = $packages;
+        
         $profile =Json::prettyPrint(Json::encode($profile));
         $profile = str_replace('<profile>', $profile, file_get_contents(__DIR__ . '/Profile.js.template'));
 

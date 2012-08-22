@@ -28,10 +28,18 @@ return array(
                 'layerOptimize' => 'closure',
                 'stripConsole' => 'all',
                 'selectorEngine' => 'acme',
+                'mini' => 1,
                 'packages' => array(
                     'dojo' => 'vendor/dojo/dojo',
                     'dijit' => 'vendor/dojo/dijit',
-                    'dojox' => 'vendor/dojo/dojox'
+                    'dojox' => 'vendor/dojo/dojox',
+                    'Sds' => 'vendor/dojo/Sds'
+                ),
+                'plugins' => array(
+                    'Sds/ConfigManager/ConfigReady' => 'Sds/Build/Plugin/ConfigReady',
+                    'Sds/ServiceManager/SharedServiceManager' => 'Sds/Build/Plugin/SharedServiceManager',
+                    'Sds/ServiceManager/Shared/GetObject' => 'Sds/Build/Plugin/CreateObject',
+                    'Sds/ServiceManager/Shared/CreateObject' => 'Sds/Build/Plugin/CreateObject'
                 ),
                 'layers' => array(
                     'dojo/dojo' => array(
@@ -41,6 +49,11 @@ return array(
                             'dojo/parser'
                         )
                     ),
+                    'Sds/AuthModule' => array(
+                        'include' => array(
+                            'Sds/AuthModule/AuthController'
+                        )
+                    )
                 ),
             ),
             'stylesheets' => array(

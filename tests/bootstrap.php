@@ -1,25 +1,13 @@
 <?php
-chdir(__DIR__);
 
-$previousDir = '.';
-while (!file_exists('config/application.config.php')) {
-    $dir = dirname(getcwd());
-    if($previousDir === $dir) {
-        throw new \RuntimeException(
-            'Unable to locate "config/application.config.php": ' .
-            'is your module in a subdir of your application skeleton?'
-        );
-    }
-    $previousDir = $dir;
-    chdir($dir);
-}
+$applicationRoot = __DIR__ . '/../../../../';
+
+chdir($applicationRoot);
 
 $loader = require_once('vendor/autoload.php');
 $loader->add('Sds\\DojoModule\\Test', __DIR__);
 $loader->add('Sds\\ModuleUnitTester', __DIR__ . '/../../../superdweebie/module-unit-tester/lib');
 
-\Sds\ModuleUnitTester\DependencyChecker::CheckTestDependencies(__DIR__ . '/composer.json');
-\Sds\ModuleUnitTester\AbstractTest::setServiceConfigPaths(array(
-    __DIR__ . '/TestConfiguration.php',
-    __DIR__ . '/TestConfiguration.php.dist'
-));
+$config = include(__DIR__ . '/test.application.config.php');
+
+\Sds\ModuleUnitTester\AbstractTest::setApplicationConfig($config);

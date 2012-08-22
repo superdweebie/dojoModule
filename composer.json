@@ -27,7 +27,6 @@
         }
     },
     "bin": [
-        "bin/dojo-module",
-        "bin/default-build.sh"
+        "bin/dojo-module"
     ]
 }

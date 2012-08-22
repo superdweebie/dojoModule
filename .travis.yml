@@ -18,11 +18,9 @@ before_script:
   - rm config/application.config.php
   - cp ../dojoModule/tests/test.application.config.php config/
   - mv config/test.application.config.php config/application.config.php
-  
+
 script:
-  - ls
-  - cd vendor/bin
-  - ls
-  - dojo-module generate:profile
+  - ls ./vendor/bin -a
+  - ./vendor/bin/dojo-module generate:profile
   - cd vendor/superdweebie/dojo-module
   - phpunit

@@ -19,7 +19,9 @@
         "symfony/console": ">=2.0.13",
         "zendframework/zendframework": "dev-master",
         "superdweebie/dojo" : "dev-master",
-        "superdweebie/json-controller" : "dev-master"
+        "superdweebie/json-controller" : "dev-master",
+        "superdweebie/module-unit-tester": "dev-master",
+        "zendframework/zendframework": "dev-master"
     },
     "autoload": {
         "psr-0": {

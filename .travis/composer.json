@@ -2,8 +2,6 @@
     "minimum-stability": "dev",
     "repositories": [{ "type": "composer", "url": "https://raw.github.com/superdweebie/dojo/master" }],
     "require": {
-        "superdweebie/dojo-module": "dev-master",
-        "superdweebie/module-unit-tester": "dev-master",
-        "zendframework/zendframework": "dev-master"
+        "superdweebie/dojo-module": "dev-master"
     }
 }

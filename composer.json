@@ -28,6 +28,6 @@
     },
     "bin": [
         "bin/dojo-module",
-        "bin/default-build.sh"
+        "bin/default-dojo-build.sh"
     ]
 }

@@ -24,7 +24,8 @@ class DojoFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->getServiceLocator()->get('Configuration')['sds']['dojo'];
+        $configService=$serviceLocator->getServiceLocator()->get('Configuration');
+        $config = $configService['sds']['dojo'];
         $instance = new Dojo();
         $instance->setTheme($config['theme']);
         $instance->setDojoRoot($config['dojoRoots'][$config['activeDojoRoot']]);

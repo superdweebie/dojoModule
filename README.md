@@ -1,3 +1,7 @@
+_WARNING_ this module is an abandoned mess. If there is anyone who wants to take it over, please just ask. 
+For myself, I realised it was just easier to use zf2 and dojo without any integration code, you just 
+don't need it.
+
 DojoModule
 ==========
 
